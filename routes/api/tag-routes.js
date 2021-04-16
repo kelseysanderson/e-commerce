@@ -1,58 +1,76 @@
 const router = require('express').Router();
-const { Tag, Product, ProductTag } = require('../../models');
+const { Tag, Product } = require('../../models');
 
-// The `/api/tags` endpoint
-
-// router.get('/', (req, res) => {
-//   try {
-//     const tagData = await Tag.findAll({
-//       include: [{ model: Product }],
-//     });
-//     res.status(200).json(libraryCardData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-// router.get('/:id', (req, res) => {
-//   try {
-//     const libraryCardData = await LibraryCard.findByPk(req.params.id, {
-//       include: [{ model: Reader }],
-//     });
-
-//     if (!libraryCardData) {
-//       res.status(404).json({ message: 'No library card found with that id!' });
-//       return;
-//     }
-
-//     res.status(200).json(libraryCardData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-router.post('/', (req, res) => {
-  // create a new tag
-});
-
-router.put('/:id', (req, res) => {
-  // update a tag's name by its `id` value
-});
-
-router.delete('/:id', (req, res) => {
-  // delete on tag by its `id` value
-});
-
-module.exports = router;
-
-
-outer.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const libraryCardData = await LibraryCard.findAll({
-      include: [{ model: Reader }],
-    });
-    res.status(200).json(libraryCardData);
-  } catch (err) {
+  const tagData = await Tag.findAll({
+    include:[{ model: Product, as: 'tags' }]
+  }
+  );
+  res.status(200).json(tagData);
+  } catch (err){
     res.status(500).json(err);
+    console.log(`Elaborate: ${err}`)
   }
 });
+
+router.get('/:id', async (req, res) => {
+  try {
+      const tagData = await Tag.findByPk(req.params.id,
+        {
+          include: [{ model: Product, as: 'tags' } ]
+        }
+      );
+
+      if (!tagData) {
+          res.status(404).json({ message: 'No location found with that id!' });
+          return;
+      }
+      res.status(200).json(tagData)
+      console.log("test");
+  } catch (err) {
+      res.status(500).json(err)
+
+      console.log(err);
+  }
+});
+
+router.post('/', async (req, res) => {
+    try {
+    const tagData = await Tag.create({
+      tag_name: req.body.tag_name
+    });
+      res.status(200).json(tagData);
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  });
+
+router.put('/:id', async (req, res) => {
+  try {
+    const tagData = await Tags.update(req.params.id);
+    if(!tagData){
+        console.log(err)
+      res.status(400).json(err);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  } 
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const tagData = await Tag.destroy(req.params.id,);
+
+    if (!tagData) {
+      res.status(404).json({ message: 'No category found with that id!' });
+      return;
+    }
+
+    res.status(200).json(tagData);
+  } catch (err) {
+    res.status(500).json(err);
+  }});
+
+module.exports = router;
