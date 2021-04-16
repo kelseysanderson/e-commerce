@@ -26,7 +26,7 @@
   
 
   ### Usage Walkthrough Video
-  [E-Commerce Walkthrough Video](https://drive.google.com/file/d/1fVsMvJzvJ_xJlbGPFLVKeDKCitWXvuMH/view)
+  [E-Commerce Walkthrough Video](https://drive.google.com/file/d/1mTzihb5pUr7YYPSabXWej8WY9N8-Ch1l/view)
 
   ## License
   Read more about the license here:
